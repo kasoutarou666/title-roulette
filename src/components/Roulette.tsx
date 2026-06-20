@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getTitle, CATEGORY_A, CATEGORY_B, CATEGORY_C } from "../lib/words";
+
 
 const SPIN_DURATION = 2000;
 
