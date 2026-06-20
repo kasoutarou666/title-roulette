@@ -1,20 +1,26 @@
 import { useState } from "react";
-import { getTitle, CATEGORY_A, CATEGORY_B, CATEGORY_C } from "../lib/words";
+import { getTitle, CATEGORY_A, CATEGORY_B, CATEGORY_C, WordSet } from "../lib/words";
 import { mintTitleNFT } from "../lib/mintTitle";
 import { useAccount, useConnect } from "wagmi";
+
+interface TitleResult {
+  a: WordSet;
+  b: WordSet;
+  c: WordSet;
+}
 
 export function Roulette() {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [spinning, setSpinning] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<TitleResult | null>(null);
   const [displayA, setDisplayA] = useState(CATEGORY_A[0]);
   const [displayB, setDisplayB] = useState(CATEGORY_B[0]);
   const [displayC, setDisplayC] = useState(CATEGORY_C[0]);
   const [minting, setMinting] = useState(false);
-  const [mintTx, setMintTx] = useState(null);
-  const [mintError, setMintError] = useState(null);
+  const [mintTx, setMintTx] = useState<string | null>(null);
+  const [mintError, setMintError] = useState<string | null>(null);
   const { isConnected } = useAccount();
   const { connect, connectors } = useConnect();
 
@@ -70,7 +76,7 @@ export function Roulette() {
     if (!result) return;
     const title = result.a.en + " " + result.b.en + " " + result.c.en;
     const ja = result.a.ja + "・" + result.b.ja + "・" + result.c.ja;
-    const text = "🎰 My legendary title is:\n\"" + title + "\"\n（" + ja + "）\n\nFind yours! 👇\nhttps://title-roulette-j3xw.vercel.app\n#TitleRoulette #FarcasterMiniApp";
+    const text = "My legendary title is: " + title + " (" + ja + ") Find yours! https://title-roulette-j3xw.vercel.app #TitleRoulette #FarcasterMiniApp";
     window.open("https://warpcast.com/~/compose?text=" + encodeURIComponent(text), "_blank");
   };
 
@@ -78,18 +84,8 @@ export function Roulette() {
     if (!result) return;
     const title = result.a.en + " " + result.b.en + " " + result.c.en;
     const ja = result.a.ja + "・" + result.b.ja + "・" + result.c.ja;
-    const text = "🎰 My legendary title is:\n\"" + title + "\"\n（" + ja + "）\n\nFind yours! 👇\nhttps://title-roulette-j3xw.vercel.app\n#TitleRoulette";
+    const text = "My legendary title is: " + title + " (" + ja + ") Find yours! https://title-roulette-j3xw.vercel.app #TitleRoulette";
     window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text), "_blank");
-  };
-
-  const inputStyle = {
-    padding: "8px",
-    borderRadius: "8px",
-    border: "1px solid rgba(255,255,255,0.3)",
-    background: "rgba(255,255,255,0.1)",
-    color: "white",
-    textAlign: "center",
-    fontSize: "0.9rem",
   };
 
   return (
@@ -102,11 +98,11 @@ export function Roulette() {
         <p style={{ fontSize: "0.9rem", marginBottom: "4px" }}>Enter your birthday</p>
         <p style={{ fontSize: "0.7rem", opacity: 0.6, marginBottom: "12px" }}>（誕生日を入力してね）</p>
         <div style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent: "center" }}>
-          <input type="number" placeholder="YYYY" value={year} onChange={e => setYear(e.target.value)} style={{ width: "80px", ...inputStyle }} />
+          <input type="number" placeholder="YYYY" value={year} onChange={e => setYear(e.target.value)} style={{ width: "80px", padding: "8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.1)", color: "white", textAlign: "center" as const, fontSize: "0.9rem" }} />
           <span style={{ opacity: 0.6 }}>/</span>
-          <input type="number" placeholder="MM" value={month} onChange={e => setMonth(e.target.value)} min={1} max={12} style={{ width: "52px", ...inputStyle }} />
+          <input type="number" placeholder="MM" value={month} onChange={e => setMonth(e.target.value)} min={1} max={12} style={{ width: "52px", padding: "8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.1)", color: "white", textAlign: "center" as const, fontSize: "0.9rem" }} />
           <span style={{ opacity: 0.6 }}>/</span>
-          <input type="number" placeholder="DD" value={day} onChange={e => setDay(e.target.value)} min={1} max={31} style={{ width: "52px", ...inputStyle }} />
+          <input type="number" placeholder="DD" value={day} onChange={e => setDay(e.target.value)} min={1} max={31} style={{ width: "52px", padding: "8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.1)", color: "white", textAlign: "center" as const, fontSize: "0.9rem" }} />
         </div>
       </div>
 
@@ -125,29 +121,29 @@ export function Roulette() {
 
       {result && !spinning && (
         <div style={{ padding: "20px", background: "linear-gradient(135deg, #1a1a2e, #0f3460)", border: "2px solid rgba(255,215,0,0.5)", borderRadius: "16px", textAlign: "center", maxWidth: "320px", width: "100%" }}>
-          <p style={{ fontSize: "0.7rem", color: "rgba(255,215,0,0.8)", letterSpacing: "2px", marginBottom: "8px" }}>✨ YOUR LEGENDARY TITLE ✨</p>
+          <p style={{ fontSize: "0.7rem", color: "rgba(255,215,0,0.8)", letterSpacing: "2px", marginBottom: "8px" }}>YOUR LEGENDARY TITLE</p>
           <p style={{ fontSize: "1.3rem", fontWeight: "bold", marginBottom: "4px" }}>{result.a.en} {result.b.en} {result.c.en}</p>
-          <p style={{ fontSize: "0.8rem", opacity: 0.7, marginBottom: "16px" }}>（{result.a.ja}・{result.b.ja}・{result.c.ja}）</p>
+          <p style={{ fontSize: "0.8rem", opacity: 0.7, marginBottom: "16px" }}>({result.a.ja} {result.b.ja} {result.c.ja})</p>
 
           {!mintTx ? (
             <button onClick={handleMint} disabled={minting} style={{ width: "100%", padding: "12px 20px", background: minting ? "rgba(255,255,255,0.1)" : "linear-gradient(135deg, #0052ff, #0070f3)", border: "none", borderRadius: "50px", color: "white", cursor: minting ? "not-allowed" : "pointer", fontWeight: "bold", fontSize: "0.9rem", marginBottom: "8px" }}>
-              {minting ? "⏳ Minting..." : "⛓️ Mint on Base!"}
+              {minting ? "Minting..." : "Mint on Base!"}
             </button>
           ) : (
-            <a href={"https://basescan.org/tx/" + mintTx} target="_blank" rel="noopener noreferrer" style={{ display: "block", width: "100%", padding: "12px 20px", background: "linear-gradient(135deg, #22c55e, #16a34a)", borderRadius: "50px", color: "white", fontWeight: "bold", fontSize: "0.9rem", marginBottom: "8px", textDecoration: "none", textAlign: "center" }}>
-              ✅ Minted! View on Basescan
+            <a href={"https://basescan.org/tx/" + mintTx} target="_blank" rel="noopener noreferrer" style={{ display: "block", width: "100%", padding: "12px 20px", background: "linear-gradient(135deg, #22c55e, #16a34a)", borderRadius: "50px", color: "white", fontWeight: "bold", fontSize: "0.9rem", marginBottom: "8px", textDecoration: "none", textAlign: "center" as const }}>
+              Minted! View on Basescan
             </a>
           )}
 
           {mintError && <p style={{ color: "#ef4444", fontSize: "0.75rem", marginBottom: "8px" }}>{mintError}</p>}
 
           <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap", marginTop: "8px" }}>
-            <button onClick={handleShare} style={{ padding: "10px 16px", background: "linear-gradient(135deg, #8b5cf6, #6d28d9)", border: "none", borderRadius: "50px", color: "white", cursor: "pointer", fontWeight: "bold", fontSize: "0.8rem" }}>🟣 Share on Farcaster</button>
-            <button onClick={handleShareX} style={{ padding: "10px 16px", background: "linear-gradient(135deg, #000, #333)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "50px", color: "white", cursor: "pointer", fontWeight: "bold", fontSize: "0.8rem" }}>𝕏 Share on X</button>
+            <button onClick={handleShare} style={{ padding: "10px 16px", background: "linear-gradient(135deg, #8b5cf6, #6d28d9)", border: "none", borderRadius: "50px", color: "white", cursor: "pointer", fontWeight: "bold", fontSize: "0.8rem" }}>Share on Farcaster</button>
+            <button onClick={handleShareX} style={{ padding: "10px 16px", background: "linear-gradient(135deg, #000, #333)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "50px", color: "white", cursor: "pointer", fontWeight: "bold", fontSize: "0.8rem" }}>Share on X</button>
           </div>
 
           <button onClick={() => { setResult(null); setYear(""); setMonth(""); setDay(""); setMintTx(null); }} style={{ marginTop: "12px", padding: "8px 24px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "50px", color: "white", cursor: "pointer", fontSize: "0.8rem" }}>
-            🔄 Try Again / もう一度
+            Try Again / もう一度
           </button>
         </div>
       )}
