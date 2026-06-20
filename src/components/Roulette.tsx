@@ -77,7 +77,7 @@ export function Roulette() {
     const title = result.a.en + " " + result.b.en + " " + result.c.en;
     const ja = result.a.ja + "・" + result.b.ja + "・" + result.c.ja;
     const text = "My legendary title is: " + title + " (" + ja + ") Find yours! https://title-roulette-j3xw.vercel.app #TitleRoulette #FarcasterMiniApp";
-    window.open("https://warpcast.com/~/compose?text=" + encodeURIComponent(text), "_blank");
+    window.open("https://warpcast.com/~/compose?text=" + encodeURIComponent(text) + "&embeds[]=" + encodeURIComponent("https://title-roulette-j3xw.vercel.app"), "_blank");
   };
 
   const handleShareX = () => {
