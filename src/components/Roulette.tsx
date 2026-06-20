@@ -43,14 +43,14 @@ export function Roulette() {
   const handleShare = () => {
     if (!result) return;
     const title = `${result.a.en} ${result.b.en} ${result.c.en}`;
-    const text = `🎰 My legendary title is:\n"${title}"\n（${result.a.ja}・${result.b.ja}・${result.c.ja}）\n\nFind yours! 👇\nhttps://title-roulette.vercel.app\n#TitleRoulette #FarcasterMiniApp`;
+    const text = `🎰 My legendary title is:\n"${title}"\n（${result.a.ja}・${result.b.ja}・${result.c.ja}）\n\nFind yours! 👇\nhttps://title-roulette-j3xw.vercel.app\n#TitleRoulette #FarcasterMiniApp`;
     window.open(`https://warpcast.com/~/compose?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   const handleShareX = () => {
     if (!result) return;
     const title = `${result.a.en} ${result.b.en} ${result.c.en}`;
-    const text = `🎰 My legendary title is:\n"${title}"\n（${result.a.ja}・${result.b.ja}・${result.c.ja}）\n\nFind yours! 👇\nhttps://title-roulette.vercel.app\n#TitleRoulette`;
+    const text = `🎰 My legendary title is:\n"${title}"\n（${result.a.ja}・${result.b.ja}・${result.c.ja}）\n\nFind yours! 👇\nhttps://title-roulette-j3xw.vercel.app\n#TitleRoulette`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, "_blank");
   };
 
